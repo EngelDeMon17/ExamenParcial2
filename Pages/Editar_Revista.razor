@@ -1,13 +1,9 @@
-﻿@page "/"
+﻿@page "/revista-editar/{titulo}"
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-
-<PageTitle>Libros</PageTitle>
-
-<h1>libros</h1>
-
+<h3>Editar_Revista</h3>
 
 <EditForm Model="@revista" OnValidSubmit="@Guardar">
 
@@ -17,12 +13,12 @@
     <div class="form-group">
         <label for="Titulo">Titulo de la Revista</label>
         <InputText id="Titulo" @bind-Value="revista.Titulo" class="form-control" />
-        
+
     </div>
     <div class="form-group">
         <label for="Autor">Autor del libro</label>
         <InputText id="Autor" @bind-Value="revista.Autor" class="form-control" />
-        
+
     </div>
     <div class="form-group">
         <label for="Genero">Genero Del Libro</label>
@@ -45,71 +41,30 @@
     </div>
 </EditForm>
 
-@if (revistas!= null)
-{    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titulo</th>
-                <th>Autor</th>
-                <th>genero</th>
-                <th>añopublicacion</th>
-                <th>volumen</th>
-                <th>Numero Ejemplar</th>
-                <th>Eliminar</th>
-                <th>Editar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var revista in revistas)
-            {
-                <tr>
-                    <td>@revista.Titulo</td>
-                    <td>@revista.Autor</td>
-                    <td>@revista.Genero</td>
-                    <td>@revista.Añopublicacion</td>
-                    <td>@revista.Volumen</td>
-                    <td>@revista.Numeroejemplar</td>
-                    <td>
-                        <button class="btn btn-danger"
-                                @onclick="@(() => BorrarRevista(revista.Titulo))">
-                            Eliminar
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning"
-                                @onclick="@(() => NavigationManager.NavigateTo($"/revista-editar/{revista.Titulo}"))">
-                            Editar
-                        </button>
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @code
-    {
+@code {
+    
+    [Parameter]
+    public string titulo { get; set; }
+
     private Revista revista = new Revista();
     List<Revista> revistas = new List<Revista>();
 
     protected async Task Guardar()
     {
-        revistas.Add(revista);
+       
         await localStorage.SetItemAsync("revista", revistas);
+
+        //Al finalizar de guardar regresamos al formulario original
+        NavigationManager.NavigateTo("/");
+
     }
 
     protected override async Task OnInitializedAsync()
-    {
+    {  
         revistas = await localStorage.GetItemAsync<List<Revista>>("revista");
-    }
-    protected async Task BorrarRevista(string Titulo)
-    {
-        revistas.Remove(revistas.First(c => c.Titulo == Titulo ));
-        await localStorage.SetItemAsync("revista", revistas);
+
+        
+        revista = revistas.Find(c => c.Titulo == titulo);
 
     }
-}
-
 }
