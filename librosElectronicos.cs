@@ -1,6 +1,6 @@
 ﻿namespace ExamenParcial2
 {
-    public class librosElectronicos:Libros
+    public class librosElectronicos:Libro
     {
 
         string formato;

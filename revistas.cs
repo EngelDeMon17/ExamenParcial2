@@ -1,11 +1,11 @@
 ﻿namespace ExamenParcial2
 {
-    public class revistas:Libros
+    public class Revista:Libro
     {
-        int volumen;
-        int numeroejemplar;
+        string volumen;
+        string numeroejemplar;
 
-        public int Volumen { get => volumen; set => volumen = value; }
-        public int Numeroejemplar { get => numeroejemplar; set => numeroejemplar = value; }
+        public string Volumen { get => volumen; set => volumen = value; }
+        public string Numeroejemplar { get => numeroejemplar; set => numeroejemplar = value; }
     }
 }

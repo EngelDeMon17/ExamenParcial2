@@ -2,14 +2,14 @@
 
 namespace ExamenParcial2
 {
-    public class Libros
+    public class Libro
     {
         string titulo;
         string autor;
         string genero;
         DateTime añopublicacion;
 
-        public Libros()
+        public Libro()
         {
             titulo = string.Empty;
             autor = string.Empty;
